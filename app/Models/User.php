@@ -11,6 +11,7 @@ use Laravel\Sanctum\HasApiTokens;
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
+    
 
     /**
      * The attributes that are mass assignable.
@@ -42,4 +43,14 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    protected function getCreatedAtAttribute($value)
+    {
+        return $this->asDateTime($value)->format('Y-m-d H:i:s');
+    }
+
+    protected function getUpdatedAtAttribute($value)
+    {
+        return $this->asDateTime($value)->format('Y-m-d H:i:s');
+    }
 }
