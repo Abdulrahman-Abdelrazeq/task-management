@@ -97,6 +97,259 @@ Query parameters for filtering:
 
 ---
 
+### 🔐 Authentication
+
+#### Register
+
+```http
+POST /api/register
+```
+
+```json
+{
+    "name": "Abdelrahman Ahmed",
+    "email": "abdelrahman@gmail.com",
+    "password": "Abdo2024@",
+    "password_confirmation": "Abdo2024@"
+}
+```
+
+Response:
+
+```json
+{
+    "status": true,
+    "message": "User Created Successfully",
+    "data": {
+        "user": {
+            "name": "Abdelrahman Ahmed",
+            "email": "abdelrahmaan@gmail.com",
+            "updated_at": "2025-05-01 00:59:59",
+            "created_at": "2025-05-01 00:59:59",
+            "id": 9
+        },
+        "token": "3|RFKYpGbmdDy8NEtu1FIp9yeURPSyFzmFTiodKQss72320c07",
+        "expires_at": "2025-05-08 00:59:59"
+    }
+}
+```
+
+#### Login
+
+```http
+POST /api/login
+```
+
+```json
+{
+    "email": "abdelrahman@gmail.com",
+    "password": "Abdo2024@"
+}
+```
+
+Response:
+
+```json
+{
+    "status": true,
+    "message": "Login Successful",
+    "data": {
+        "user": {
+            "id": 8,
+            "name": "Abdelrahman Ahmed",
+            "email": "abdelrahman@gmail.com",
+            "email_verified_at": null,
+            "created_at": "2025-05-01 00:43:57",
+            "updated_at": "2025-05-01 00:43:57"
+        },
+        "token": "4|ChTkLfrro7sBg4uhOt55djrGVS5gLzGPL9acxbQa3eb3d8fa",
+        "expires_at": "2025-05-08 01:01:13"
+    }
+}
+```
+
+#### Logout
+
+```http
+POST /api/logout
+Headers: Authorization: Bearer <token>
+```
+
+Response:
+
+```json
+{
+    "status": true,
+    "message": "Logged out successfully"
+}
+```
+
+---
+
+### 📋 Task Endpoints
+
+#### Get All Tasks
+
+```http
+GET /api/tasks?per_page=3&keyword=e&sort_order=id_desc
+Authorization: Bearer <token>
+```
+
+Response:
+
+```json
+{
+    "status": true,
+    "message": "Tasks retrieved successfully",
+    "data": [
+        {
+            "id": 106,
+            "name": "A dolor cumque.",
+            "description": "Numquam et est dignissimos repellendus corrupti possimus aut. Iusto sequi blanditiis quam nobis incidunt pariatur. Omnis odit tempore quia cupiditate fuga.",
+            "status": {
+                "id": 22,
+                "name": "Pending"
+            },
+            "created_at": "2025-05-01 00:44:05",
+            "updated_at": "2025-05-01 00:44:05"
+        },
+        {
+            "id": 105,
+            "name": "Aut natus voluptatem iste.",
+            "description": "Omnis nobis rem laborum aut atque. Dicta excepturi nihil deserunt est velit dolorem aut. In accusantium eveniet minus est.",
+            "status": {
+                "id": 23,
+                "name": "In_progress"
+            },
+            "created_at": "2025-05-01 00:44:05",
+            "updated_at": "2025-05-01 00:44:05"
+        },
+        {
+            "id": 104,
+            "name": "Qui culpa explicabo ut.",
+            "description": "Aut neque corrupti in aut officiis. Eius beatae quaerat laboriosam accusamus facilis porro. Est ut excepturi enim cupiditate ipsa sed delectus sed. Molestias enim officiis laudantium natus ut rerum illum. Maxime veritatis excepturi ut impedit.",
+            "status": {
+                "id": 24,
+                "name": "Completed"
+            },
+            "created_at": "2025-05-01 00:44:05",
+            "updated_at": "2025-05-01 00:44:05"
+        }
+    ],
+    "pagination": {
+        "current_page": 1,
+        "last_page": 17,
+        "per_page": 3,
+        "total": 50,
+        "next_page_url": "http://127.0.0.1:8000/api/tasks?page=2",
+        "prev_page_url": null
+    }
+}
+```
+
+#### Get One Task
+
+```http
+GET /api/tasks/1
+Authorization: Bearer <token>
+```
+
+Response:
+
+```json
+{
+    "status": true,
+    "message": "Task retrieved successfully",
+    "data": {
+        "id": 104,
+        "name": "Qui culpa explicabo ut.",
+        "description": "Aut neque corrupti in aut officiis. Eius beatae quaerat laboriosam accusamus facilis porro. Est ut excepturi enim cupiditate ipsa sed delectus sed. Molestias enim officiis laudantium natus ut rerum illum. Maxime veritatis excepturi ut impedit.",
+        "status": {
+            "id": 24,
+            "name": "Completed"
+        },
+        "created_at": "2025-05-01 00:44:05",
+        "updated_at": "2025-05-01 00:44:05"
+    }
+}
+```
+
+#### Create Task
+
+```http
+POST /api/tasks
+Authorization: Bearer <token>
+```
+
+```json
+{
+    "name": "Test",
+    "description": "Test Desc",
+    "status_id": 2
+}
+```
+
+Response:
+
+```json
+{
+    "status": true,
+    "message": "Task created successfully"
+}
+```
+
+#### Update Task
+
+```http
+PATCH /api/tasks/{id}
+Authorization: Bearer <token>
+```
+
+```json
+{
+    "name": "Updated Task Name",
+    "description": "Updated description"
+}
+```
+
+Response:
+
+```json
+{
+    "status": true,
+    "message": "Task updated successfully",
+    "data": {
+        "id": 104,
+        "name": "Qui culpa explicabo ut.",
+        "description": "Aut neque corrupti in aut officiis. Eius beatae quaerat laboriosam accusamus facilis porro. Est ut excepturi enim cupiditate ipsa sed delectus sed. Molestias enim officiis laudantium natus ut rerum illum. Maxime veritatis excepturi ut impedit.",
+        "status": {
+            "id": 24,
+            "name": "Completed"
+        },
+        "created_at": "2025-05-01 00:44:05",
+        "updated_at": "2025-05-01 00:44:05"
+    }
+}
+```
+
+#### Delete Task (Soft Delete)
+
+```http
+DELETE /api/tasks/{id}
+Authorization: Bearer <token>
+```
+
+Response:
+
+```json
+{
+    "status": true,
+    "message": "Task deleted successfully"
+}
+```
+
+---
+
 ### 🧪 Running Tests
 
 ```bash

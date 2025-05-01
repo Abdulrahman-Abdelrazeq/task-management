@@ -27,7 +27,7 @@ class TaskController extends Controller
         try {
             // Get pagination size from request, default to 10, with max limit 100
             $perPage = $request->input('per_page', 10);
-            $perPage =  is_numeric($perPage) || $perPage > 100 || $perPage < 1 ? 10 : $perPage;
+            $perPage =  $perPage > 100 || $perPage < 1 ? 10 : $perPage;
             // Define available sort orders for tasks
             $sortOrder = $request->input('sort_order', 'id_desc');
             $keyword = $request->input('keyword', null);

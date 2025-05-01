@@ -7,6 +7,8 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 trait Response
 {
+
+    // Send a standardized JSON API response.
     public function sendRes($status = true, $message, $data = null, $errors = null, $code = 200)
     {
         $response = [
@@ -15,6 +17,7 @@ trait Response
         ];
 
         if($data != null) {
+            // Handle paginated collections
             if ($data instanceof AnonymousResourceCollection && $data->resource instanceof LengthAwarePaginator) {
                 $paginator = $data->resource;
                 $response['data'] = $data->collection;
@@ -31,6 +34,7 @@ trait Response
             }
         }
 
+        // Append error details if present
         if($errors != null) {
             $response['errors'] = $errors;
         }
