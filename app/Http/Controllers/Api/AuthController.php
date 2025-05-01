@@ -9,6 +9,7 @@ use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Hash;
 use App\Traits\Response;
+use Carbon\Carbon;
 
 class AuthController extends Controller
 {
@@ -23,15 +24,12 @@ class AuthController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        $token = $user->createToken('api')->plainTextToken;
+        $token = $user->createToken('api', ['*'], Carbon::now()->addDays(7));
 
-        return response()->json([
-            'user' => $user,
-            'token' => $token,
-        ], 201);
         return $this->sendRes(true, 'User Created Successfully', [
             'user' => $user,
-            'token' => $token,
+            'token' => $token->plainTextToken,
+            'expires_at' => $token->accessToken->expires_at->format('Y-m-d H:i:s'),
         ], null, 201);
     }
 
@@ -42,15 +40,16 @@ class AuthController extends Controller
 
         if (auth()->attempt($credentials)) {
             $user = auth()->user();
-            $token = $user->createToken('api')->plainTextToken;
+            $token = $user->createToken('api', ['*'], Carbon::now()->addDays(7));
 
             return $this->sendRes(true, 'Login Successful', [
                 'user' => $user,
-                'token' => $token,
+                'token' => $token->plainTextToken,
+                'expires_at' => $token->accessToken->expires_at->format('Y-m-d H:i:s'),
             ]);
         }
 
-        return $this->sendRes(false, 'Unauthorized', null, null, 401);
+        return $this->sendRes(false, 'anuthorized', null, null, 401);
     }
 
     // Log out a user and revoke the current token.

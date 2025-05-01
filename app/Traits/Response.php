@@ -2,6 +2,9 @@
 
 namespace App\Traits;
 
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Pagination\LengthAwarePaginator;
+
 trait Response
 {
     public function sendRes($status = true, $message, $data = null, $errors = null, $code = 200)
